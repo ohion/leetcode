@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>插入排序</title>
+</head>
+<body>
+    <script>
+        let arr = [10,45,67,35,88,90,99,2,100];
+        console.log(arr)
+        // 插入排序
+        function insertSort(arr){
+            for(var i=1;i<arr.length;i++){
+                let result = arr[i];
+                // 保证插入进去，都是有序的
+                for(var j=i-1;j>=0;j--){
+                    if(result < arr[j]){
+                        arr[j+1] = arr[j];
+                        arr[j] = result;
+                    }else{
+                        break;
+                    }
+                }
+            }
+            return arr;
+        }
+        // 插入排序-二分法
+        function insertTwoSort(arr){
+            let left,right,middle,result;
+            for(var i=1;i<arr.length;i++){
+                result = arr[i];
+                left = 0;
+                right = i-1;
+                // 找到插入那个位置
+                while(left<=right){
+                    middle = Math.floor((right+ left)/2);
+                    if(result <  arr[middle]){
+                        right = middle -1;
+                    }else{
+                        left = middle +1;
+                    }
+                }
+                // 那个位置往后移
+                for(var j=i-1;j>=left;j--){
+                    arr[j+1] = arr[j];
+                }
+                arr[left] = result;
+            }
+            // console.log(arr)
+            return arr;
+        }
+        // console.log(insertTwoSort(arr));
+        // 归并排序
+        // 1、把长度为n的输入序列分为两个长度为n/2的子序列
+        // 2、对这两个子序列进行归并排序 (递归)
+        // 3、将两个排序好的子序列合并成最终的排序序列
+        function mergeSort(arr){
+            // for(var i=0;i<arr.length;i++){
+            //     test(arr[i],arr[i+1]);
+            // }
+            if(arr.length<2){
+                return arr;
+            }
+            let len = arr.length;
+            let middle = Math.floor(len / 2);
+            let left = arr.slice(0,middle);
+            let right = arr.slice(middle,len);
+            return merge(mergeSort(left),mergeSort(right))
+
+            // 将两个有序数组合并
+            // function test(arr1,arr2){
+            //     for(var j=0;j<arr1.length;j++){
+            //         if()
+            //     }
+            //     return arr1;
+            // }
+        }
+        function merge(left,right){
+            console.log(left,right)
+            let result = [];
+            while(left.length && right.length){
+                if(left[0]<=right[0]){
+                    result.push(left.shift());
+                    // console.log(left);
+                }else{
+                    // console.log(result)
+                    result.push(right.shift());
+                }
+            }
+            while(left.length){
+                result.push(left.shift())
+            }
+            while(right.length){
+                // console.log(right)
+                result.push(right.shift())
+            }
+            // console.log(result)
+            return result;
+        }
+        console.log(arr)
+        console.log(mergeSort(arr));
+
+    </script>
+
+</body>
+</html>
